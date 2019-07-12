@@ -12,9 +12,9 @@ namespace GenerateDataSenat.Streams
 {
     public class ReceiveMessagesFromRabbit
     {
-        readonly IModel model;
+        static IModel model;
         readonly IConnection connection;
-        private string queueName = "Queue";
+        private static string queueName = "Queue";
         
         public ReceiveMessagesFromRabbit()
         {
@@ -24,7 +24,7 @@ namespace GenerateDataSenat.Streams
             model.QueueDeclare(queueName, false, false, false, null);
         }
 
-        //public void ReceiveRabbit(ConcurrentQueue<string> Cq)
+        //public void ReceiveRabbit(ConcurrentQueue<string> queue)
 
         //{
         //    try
@@ -34,12 +34,11 @@ namespace GenerateDataSenat.Streams
         //        {
         //            var body = ea.Body;
         //            var message = Encoding.UTF8.GetString(body);
-        //            Task.Run(() => Cq.Enqueue(message));
+        //            queue.Enqueue(message);
         //        };
-        //        model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-        //        Thread.Sleep(2000);
+        //        model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);       
         //    }
-        //    catch
+        //    catch // прописывать тип исключения 
         //    {
         //    }
         //}
@@ -47,20 +46,20 @@ namespace GenerateDataSenat.Streams
         {
             try
             {
-                Monitor.Enter(messages);
                 var consumer = new EventingBasicConsumer(model);
                 consumer.Received += (mod, ea) =>
                 {
                     var body = ea.Body;
                     var message = Encoding.UTF8.GetString(body);
-                    messages.Enqueue(message);
-
+                    lock (message)
+                    {
+                        messages.Enqueue(message);
+                    }
                 };
                 model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
             }
-            finally
+            catch
             {
-                Monitor.Exit(messages);
             }
         }
     }

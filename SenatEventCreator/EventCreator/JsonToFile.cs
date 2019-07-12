@@ -11,7 +11,7 @@ namespace EventCreator
     {
         public static void WriteJson(string _json)
         {
-
+         //   File.WriteAllText();
             var name = DateTime.Now;
             StreamWriter SW = new StreamWriter(new FileStream("json\\" + name.ToFileTime().ToString() + ".json", FileMode.Create, FileAccess.Write));
             SW.Write(_json);

@@ -29,14 +29,12 @@ namespace EventCreator.Dto
             model.QueueBind(queueName, exchangeName, routingKey, null);
         }
 
-        public void AddToRabbit(string _json)
+        public void AddToRabbit(string json)
         {
-            byte[] messageBodyBytes = Encoding.UTF8.GetBytes(_json);
+            byte[] messageBodyBytes = Encoding.UTF8.GetBytes(json);
             model.BasicPublish(exchangeName, routingKey, null, messageBodyBytes);
         }
-
-
-
+        
         public void Dispose()
         {
             model?.Close();

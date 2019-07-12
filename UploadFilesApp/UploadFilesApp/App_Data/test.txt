@@ -1,0 +1,132 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace vavava
+{
+
+	public class MyClass
+	{
+		public List<Issues> issues {get; set;}
+	}
+	public class MyClass2
+	{
+		public List<Meetings> meetings {get; set;}
+	}
+	
+ public class Identific
+    {
+        public Guid id { get; set; }
+    }
+	
+
+	
+public class Issues
+    {
+        public Identific collegialBody { get; set; }
+        public bool isInformational { get; set; }
+        Dictionary <string,string> title;
+        Dictionary <string,string> description;
+        public string estimate { get; set; }
+        public List<object> speakers { get; set; }
+        public List<Identific> initiators { get; set; }
+        public List<object> invitees { get; set; }
+        public List<object> materials { get; set; }
+    };
+
+    public class Meetings
+    {
+        public string _discriminator { get; set; }
+        public Identific collegialBody { get; set; }
+        public string num { get; set; }
+        public string agendaDueDate { get; set; }
+        public string materialsDueDate { get; set; }
+        public string date { get; set; }
+        Dictionary <string,string> address;
+        public List<Identific> invitedPersons { get; set; }
+        public List<Identific> issues { get; set; }
+    }
+	
+
+public class program
+{
+	static string json = @"{
+  'issues': [
+    {
+      'collegialBody': {
+        'id': '0f880b9a-703c-45df-9a7b-ab43c3e1ca35'
+      },
+      'isInformational': true,
+      'title': {
+        'ru-RU': 'Тестовый вопрос 1'
+      },
+      'description': {
+        'ru-RU': 'Пояснение'
+      },
+      'estimate': '00:15',
+      'speakers': [],
+      'initiators': [],
+      'invitees': [
+        {
+          'id': '30fda679-f784-4bd3-aa24-98d96d57c64c'
+        }
+      ],
+      'materials': []
+    },
+    {
+      'collegialBody': {
+        'id': '0f880b9a-703c-45df-9a7b-ab43c3e1ca35'
+      },
+      'isInformational': true,
+      'title': {
+        'ru-RU': 'Тестовый вопрос 2'
+      },
+      'description': {
+        'ru-RU': 'Пояснение'
+      },
+      'estimate': '00:15',
+      'speakers': [],
+      'initiators': [
+        {
+          'id': '30fda679-f784-4bd3-aa24-98d96d57c64c'
+        }
+      ],
+      'invitees': [],
+      'materials': []
+    }
+  ],
+
+  'meetings': [
+    {
+      '_discriminator': 'CreateMeetingInPresentiaDto',
+      'collegialBody': {
+        'id': '0f880b9a-703c-45df-9a7b-ab43c3e1ca35'
+      },
+      'num': 'Заседание 1',
+      'agendaDueDate': '2019-05-28T11:13:12.861Z',
+      'materialsDueDate': '2019-05-28T11:13:12.861Z',
+      'date': '2019-05-28T11:13:12.861Z',
+      'address': {
+        'ru-RU': 'Варшавское шоссе 25а'
+      },
+      'invitedPersons': [
+        {
+          'id': '66364f4b-79d3-4d9e-b6e3-271a9463a6d6'
+        }
+      ],
+      'issues': [
+        {
+          'id': '015df03c-91f0-46f9-b8cc-5c1e4fb3df0d'
+        }
+      ]
+    }
+  ]
+}";
+	public static void Main()
+	{
+	
+	MyClass test = JsonConvert.DeserializeObject<MyClass>(json);
+		Console.WriteLine(test.issues[1].initiators);
+	}
+}
+}

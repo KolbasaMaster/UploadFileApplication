@@ -28,7 +28,7 @@ namespace EventCreator.Dto
            {"859693ae-09cc-46fe-8568-66c8dce2ce9b", "49351b03-7c30-42cc-9ee7-a154ae530158"}
        };
 
-        private static List<string> _rolesCollegialBody = new List<string>()
+        private static readonly List<string> _rolesCollegialBody = new List<string>()
        {
            "67b2f365-dea0-4ec8-94ba-0bbba442e082", "cf273f94-da97-47d3-ab3d-19d342321dc8",
            "87c52dfd-3e5b-45fb-9798-2b9449285379", "ca311823-c639-422a-87e6-38d347acbcbf",
@@ -65,10 +65,10 @@ namespace EventCreator.Dto
             return JsonRole;
         }
 
-        public static string BlockUser()
+        public static string BlockUser() 
         {
             LockUser blockUser = new LockUser();
-            blockUser.Id = "53cd3f2c-7e28-4c13-990a-36b743e9378e";
+            blockUser.Id = "c9114cdc-6777-47d2-b62b-ceea3a98ae05";
             blockUser.ForceLocked = true;
             string JsonBlock = JsonConvert.SerializeObject(blockUser, Formatting.Indented);
             return JsonBlock;

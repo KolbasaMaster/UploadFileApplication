@@ -42,7 +42,8 @@ namespace GenerateDataSenat.Streams.SenatApi
         public bool BlockUser(LockUser user)
         {
             var request = new RestRequest("/api/v2.0/users/{id}/locking", Method.PUT);
-            request.AddJsonBody(user.Id);
+            request.AddJsonBody(user.ForceLocked);
+            request.AddUrlSegment("id", user.Id); // заменяет id в url на id из модели
             return SendRequest2(request);
         }
 
